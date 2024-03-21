@@ -26,7 +26,7 @@ public class StockReservedEventConsumer : IConsumer<StockReservedEvent>
         else
         {
             _logger.LogError($"Payment failed: {context.Message.PaymentMessage.TotalPrice} TL was not withdrawn from credit card for user id = {context.Message.BuyerId}");
-            await _publishEndpoint.Publish(new PaymentFailedEvent { OrderId = context.Message.OrderId, BuyerId = context.Message.BuyerId, Message = "not enough balance" });
+            await _publishEndpoint.Publish(new PaymentFailedEvent { OrderId = context.Message.OrderId, BuyerId = context.Message.BuyerId, Message = "not enough balance" , OrderItemMessages = context.Message.OrderItemMessages});
         }
     }
 }
