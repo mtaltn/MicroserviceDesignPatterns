@@ -27,12 +27,22 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<PaymentComplatedEventConsumer>();
+    x.AddConsumer<PaymentFailedEventConsumer>();
+    x.AddConsumer<StockNotReservedEventConsumer>();
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
         cfg.ReceiveEndpoint(RabbitMqConst.OrderPaymentComplatedEventQueueName , e =>
         {
             e.ConfigureConsumer<PaymentComplatedEventConsumer>(context);
+        });
+        cfg.ReceiveEndpoint(RabbitMqConst.OrderPaymentFailedEventQueueName , e =>
+        {
+            e.ConfigureConsumer<PaymentFailedEventConsumer>(context);
+        });
+        cfg.ReceiveEndpoint(RabbitMqConst.StockNotReservedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<StockNotReservedEventConsumer>(context);
         });
     });
 });
