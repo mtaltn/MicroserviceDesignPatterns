@@ -9,4 +9,8 @@ public class RabbitMqConst
     public const string OrderPaymentFailedEventQueueName = "order-payment-failed-queue";
     public const string StockPaymentFailedEventQueueName = "stock-payment-failed-queue";
     public const string StockNotReservedEventQueueName = "order-stock-not-reserved-queue";
+
+
+
+    public const string OrderSaga = "order-saga-queue";
 }

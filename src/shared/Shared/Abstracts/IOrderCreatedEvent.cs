@@ -2,7 +2,7 @@
 
 namespace Shared;
 
-public class OrderCreatedEvent : IOrderCreatedEvent
+public interface IOrderCreatedEvent
 {
     public List<OrderItemMessageDto> OrderItemMessages { get; set; }
 }
