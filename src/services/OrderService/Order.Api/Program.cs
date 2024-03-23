@@ -1,7 +1,9 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Order.Api.Consumers;
 using Order.Api.Models;
+using Shared.RabbitMqSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,21 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<OrderRequestCompletedEventConsumer>();
+    x.AddConsumer<OrderRequestFailedEventConsumer>();
+
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));        
+        cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
+
+        cfg.ReceiveEndpoint(RabbitMqConst.OrderRequestCompletedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<OrderRequestCompletedEventConsumer>(context);
+        });
+        cfg.ReceiveEndpoint(RabbitMqConst.OrderRequestFailedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<OrderRequestFailedEventConsumer>(context);
+        });
     });
 });
 

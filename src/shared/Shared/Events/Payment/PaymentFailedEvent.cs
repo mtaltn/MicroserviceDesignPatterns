@@ -2,10 +2,15 @@
 
 namespace Shared;
 
-public class PaymentFailedEvent
+public class PaymentFailedEvent : IPaymentFailedEvent
 {
-    public int OrderId { get; set; }
-    public string BuyerId { get; set; }
-    public string Message { get; set; }
+    public PaymentFailedEvent(Guid correlationId)
+    {
+        CorrelationId = correlationId;
+    }
+
     public List<OrderItemMessageDto> OrderItemMessages { get; set; }
+    public string Reason { get; set; }
+
+    public Guid CorrelationId { get; }
 }

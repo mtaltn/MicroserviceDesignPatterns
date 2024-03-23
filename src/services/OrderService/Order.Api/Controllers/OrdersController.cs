@@ -1,6 +1,4 @@
 ﻿using MassTransit;
-using MassTransit.Testing;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.Api.Models;
 using Shared;

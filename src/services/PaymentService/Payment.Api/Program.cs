@@ -1,5 +1,7 @@
 using MassTransit;
 using Microsoft.OpenApi.Models;
+using Payment.Api.Consumer;
+using Shared.RabbitMqSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +24,16 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<StockReservedRequestPaymentConsumer>();
+        
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));        
+        cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
+
+        cfg.ReceiveEndpoint(RabbitMqConst.PaymentStockReservedRequestEventQueueName, e =>
+        {
+            e.ConfigureConsumer<StockReservedRequestPaymentConsumer>(context);
+        });
     });
 });
 

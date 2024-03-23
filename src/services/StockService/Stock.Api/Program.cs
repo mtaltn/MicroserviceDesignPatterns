@@ -1,6 +1,8 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Shared.RabbitMqSettings;
+using Stock.Api.Consumers;
 using Stock.Api.Models;
 
 
@@ -25,9 +27,21 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<OrderCreatedEventConsumer>();
+    x.AddConsumer<StockRollBackMessageConsumer>();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("RabbitMq"));
+
+        cfg.ReceiveEndpoint(RabbitMqConst.StockOrderCreatedEventQueueName, e =>
+        {
+            e.ConfigureConsumer<OrderCreatedEventConsumer>(context);
+        });
+        cfg.ReceiveEndpoint(RabbitMqConst.StockRollBackMessageQueueName, e =>
+        {
+            e.ConfigureConsumer<StockRollBackMessageConsumer>(context);
+        });
     });
 });
 

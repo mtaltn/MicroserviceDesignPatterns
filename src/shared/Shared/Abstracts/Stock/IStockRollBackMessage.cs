@@ -2,7 +2,7 @@
 
 namespace Shared;
 
-public interface IOrderCreatedEvent
+public interface IStockRollBackMessage
 {
     public List<OrderItemMessageDto> OrderItemMessages { get; set; }
 }

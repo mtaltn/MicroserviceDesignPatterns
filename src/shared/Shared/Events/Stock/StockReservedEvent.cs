@@ -2,10 +2,13 @@
 
 namespace Shared;
 
-public class StockReservedEvent
+public class StockReservedEvent : IStockReservedEvent
 {
-    public int OrderId { get; set; }
-    public string BuyerId { get; set; }
-    public PaymentMessageDto PaymentMessage { get; set; }
-    public List<OrderItemMessageDto> OrderItemMessages { get; set; } = new List<OrderItemMessageDto>();
+    public StockReservedEvent(Guid correlationId)
+    {
+        CorrelationId = correlationId;
+    }
+    public List<OrderItemMessageDto> OrderItemMessages { get; set; }
+
+    public Guid CorrelationId { get; }
 }
