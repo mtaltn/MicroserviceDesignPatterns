@@ -1,7 +1,6 @@
 ﻿namespace EventSourcing.Shared;
 
-public class ProductNameChangedEvent : IEvent
+public class ProductNameChangedEvent : ProductEventBase
 {
-    public Guid Id { get; set; }
     public string ChangedName { get; set; }
 }

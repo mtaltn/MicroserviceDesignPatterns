@@ -1,4 +1,10 @@
+using EventSourcing.Product.Api;
+using EventSourcing.Product.Api.BackgroundServices;
+using EventSourcing.Product.Api.Models;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +25,16 @@ builder.Services.AddSwaggerGen(c =>
         }
     }));
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
+});
+
 builder.Services.AddControllers();
+builder.Services.AddEventStore(builder.Configuration); 
+builder.Services.AddSingleton<ProductStream>();
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddHostedService<ProductReadModelEventStore>();
 
 var app = builder.Build();
 
@@ -32,6 +47,5 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 app.UseHttpsRedirection();
-
 
 app.Run();

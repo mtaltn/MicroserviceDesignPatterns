@@ -1,6 +1,5 @@
 ﻿namespace EventSourcing.Shared;
 
-public class ProductDeletedEvent : IEvent
+public class ProductDeletedEvent : ProductEventBase
 {
-    public Guid Id { get; set; }
 }

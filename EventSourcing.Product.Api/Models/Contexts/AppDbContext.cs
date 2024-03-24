@@ -2,11 +2,7 @@
 
 namespace EventSourcing.Product.Api.Models;
 
-public class AppDbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    //{
-    //}
-
-    //public DbSet<Product> Products { get; set; }
+    public DbSet<Product> Products { get; set; }
 }

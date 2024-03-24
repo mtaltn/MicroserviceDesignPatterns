@@ -4,7 +4,7 @@ namespace EventSourcing.Product.Api;
 
 public static class EventStoreExtensions
 {
-    public static async void AddEventStore(this IServiceCollection services, IConfiguration configuration)
+    public static void AddEventStore(this IServiceCollection services, IConfiguration configuration)
     {
         var connection = EventStoreConnection.Create(connectionString: configuration.GetConnectionString("EventStore"));
 
