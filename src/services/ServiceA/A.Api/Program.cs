@@ -29,6 +29,9 @@ builder.Services.AddHttpClient<ProductService>(opt =>
     opt.BaseAddress = new Uri("http://localhost:5001/api/Products/");
 })
 .AddPolicyHandler(GetAdvanceCircuitBreakerPolicy());
+//.AddPolicyHandler(GetCircuitBreakerPolicy());
+//.AddPolicyHandler(GetRetryPolicy());
+///hangisini kullanmak istiyorsan onu seçebilirsin þuan GetAdvanceCircuitBreakerPolicy a göre çalýþýyor þuan 
 
 // direkt burada url de vererek kullanabilirsiniz ben içerisine girip deðer atamayý daha çok seçiyorum
 //builder.Services.AddHttpClient("YourHttpClientName")
