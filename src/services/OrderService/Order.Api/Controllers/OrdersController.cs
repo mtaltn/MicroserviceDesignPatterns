@@ -20,6 +20,44 @@ public class OrdersController : ControllerBase
         _context = context;
         _publishEndpoint = publishEndpoint;
     }
+    /// <summary>
+    /// Bu controller, sipariş işlemlerini yönetmek için kullanılır.
+    /// </summary>
+    /// <remarks>
+    /// OrdersController, bir e-ticaret uygulamasının sipariş yönetimi kısmını ele alır.
+    /// Temel olarak aşağıdaki işlevleri yerine getirir:
+    /// 
+    /// 1. Yeni Sipariş Oluşturma:
+    ///    - Müşteriden gelen sipariş bilgilerini alır.
+    ///    - Bu bilgileri kullanarak yeni bir sipariş nesnesi oluşturur.
+    ///    - Siparişi veritabanına kaydeder.
+    ///    - Ödeme işlemi için gerekli bilgileri hazırlar.
+    /// 
+    /// 2. Sipariş Durumu Yönetimi:
+    ///    - Yeni oluşturulan siparişlerin durumunu "Askıda" olarak belirler.
+    ///    - Sipariş durumunu güncellemek için gerekli altyapıyı sağlar.
+    /// 
+    /// 3. Ödeme İşlemi Başlatma:
+    ///    - Sipariş oluşturulduktan sonra ödeme işlemini başlatmak için bir olay yayınlar.
+    ///    - Bu olay, ödeme servisine gerekli bilgileri iletir.
+    /// 
+    /// 4. Veri Bütünlüğü ve Güvenlik:
+    ///    - Paralel işlemler sırasında veri bütünlüğünü korumak için kilit mekanizmaları kullanır.
+    ///    - Gelen verilerin doğruluğunu kontrol eder ve gerekli validasyonları yapar.
+    /// 
+    /// 5. Veritabanı İşlemleri:
+    ///    - Entity Framework Core kullanarak veritabanı işlemlerini gerçekleştirir.
+    ///    - Siparişleri ve ilgili detayları veritabanına kaydeder.
+    /// 
+    /// 6. Olay Tabanlı İletişim:
+    ///    - MassTransit kütüphanesini kullanarak mikroservisler arası iletişimi sağlar.
+    ///    - Sipariş oluşturma olayını yayınlayarak diğer servisleri bilgilendirir.
+    /// 
+    /// Bu controller, SOLID prensiplerini göz önünde bulundurarak tasarlanmıştır ve
+    /// gelecekte yapılacak geliştirmeler için uygun bir altyapı sunar. Ayrıca, performans
+    /// optimizasyonu için Parallel.ForEach gibi paralel programlama teknikleri kullanılmıştır.
+    /// </remarks>
+
 
     [HttpPost]
     public async Task<IActionResult> Create(OrderCreateDto orderCreate)
